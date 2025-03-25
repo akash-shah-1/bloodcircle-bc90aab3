@@ -62,6 +62,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
+          {/* Always show these navigation links regardless of user login status */}
           <Link
             to="/"
             className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
@@ -176,6 +177,7 @@ const Navbar = () => {
         } shadow-lg`}
       >
         <nav className="flex flex-col gap-4">
+          {/* Always show these navigation items regardless of user login status */}
           <Link
             to="/"
             className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${

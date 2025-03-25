@@ -13,6 +13,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import FindDonor from "./pages/FindDonor";
 import DonorsList from "./pages/DonorsList";
 import RecipientsList from "./pages/RecipientsList";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/find-donor" element={<FindDonor />} />
             <Route path="/donors" element={<DonorsList />} />
             <Route path="/recipients" element={<RecipientsList />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
