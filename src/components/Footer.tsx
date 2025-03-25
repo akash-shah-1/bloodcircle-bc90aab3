@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Heart, Mail, Phone, MapPin, FacebookIcon, TwitterIcon, InstagramIcon } from "lucide-react";
+import { Heart, Mail, Phone, MapPin, FacebookIcon, TwitterIcon, InstagramIcon, Droplet } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

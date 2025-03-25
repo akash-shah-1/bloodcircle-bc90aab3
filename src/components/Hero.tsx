@@ -1,5 +1,5 @@
 
-import { ArrowRight, Heart, UserPlus, DropletPlus, Syringe } from "lucide-react";
+import { ArrowRight, Heart, UserPlus, Droplets, Syringe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -51,7 +51,7 @@ const Hero = () => {
                   <UserPlus className="text-blood-500 w-6 h-6" />
                 </div>
                 <div className="absolute bottom-10 -right-5 glass rounded-xl p-3 shadow-lg animate-float" style={{ animationDelay: "1s" }}>
-                  <DropletPlus className="text-blood-500 w-6 h-6" />
+                  <Droplets className="text-blood-500 w-6 h-6" />
                 </div>
                 <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 glass rounded-xl p-3 shadow-lg animate-float" style={{ animationDelay: "2s" }}>
                   <Syringe className="text-blood-500 w-6 h-6" />
