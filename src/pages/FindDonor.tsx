@@ -39,10 +39,10 @@ const FindDonor = () => {
       donor.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       donor.location.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesBloodType = bloodType ? donor.bloodType === bloodType : true;
+    const matchesBloodType = bloodType === "all-types" || bloodType === "" ? true : donor.bloodType === bloodType;
     
-    const matchesDistance = distance ? 
-      parseInt(donor.distance) <= parseInt(distance) : true;
+    const matchesDistance = distance === "any-distance" || distance === "" ? true : 
+      parseInt(donor.distance) <= parseInt(distance);
     
     return matchesSearch && matchesBloodType && matchesDistance;
   });
@@ -73,7 +73,7 @@ const FindDonor = () => {
                   <SelectValue placeholder="Blood Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all-types">All Types</SelectItem>
                   <SelectItem value="A+">A+</SelectItem>
                   <SelectItem value="A-">A-</SelectItem>
                   <SelectItem value="B+">B+</SelectItem>
@@ -90,7 +90,7 @@ const FindDonor = () => {
                   <SelectValue placeholder="Distance" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Distance</SelectItem>
+                  <SelectItem value="any-distance">Any Distance</SelectItem>
                   <SelectItem value="5">Within 5 miles</SelectItem>
                   <SelectItem value="10">Within 10 miles</SelectItem>
                   <SelectItem value="25">Within 25 miles</SelectItem>
