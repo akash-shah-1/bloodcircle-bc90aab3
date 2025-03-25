@@ -1,13 +1,25 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, UserCircle } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, UserCircle, LogOut, Bell, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +35,11 @@ const Navbar = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header
@@ -54,6 +71,14 @@ const Navbar = () => {
             Home
           </Link>
           <Link
+            to="/find-donor"
+            className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
+              location.pathname === "/find-donor" ? "text-blood-500" : "text-foreground"
+            }`}
+          >
+            Find Donors
+          </Link>
+          <Link
             to="/about"
             className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
               location.pathname === "/about" ? "text-blood-500" : "text-foreground"
@@ -71,12 +96,66 @@ const Navbar = () => {
           </Link>
 
           <div className="ml-4 space-x-2">
-            <Button asChild variant="outline" className="rounded-full">
-              <Link to="/login">Login</Link>
-            </Button>
-            <Button asChild className="bg-blood-500 hover:bg-blood-600 rounded-full">
-              <Link to="/register">Register</Link>
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="rounded-full">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-blood-100 flex items-center justify-center text-blood-500">
+                        <UserCircle className="w-5 h-5" />
+                      </div>
+                      <span className="hidden sm:inline">{user.name}</span>
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard" className="cursor-pointer w-full">
+                        <UserCircle className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    {user.role === "admin" && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin" className="cursor-pointer w-full">
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Admin Panel</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem asChild>
+                      <Link to="/notifications" className="cursor-pointer w-full">
+                        <Bell className="mr-2 h-4 w-4" />
+                        <span>Notifications</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/settings" className="cursor-pointer w-full">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button asChild variant="outline" className="rounded-full">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button asChild className="bg-blood-500 hover:bg-blood-600 rounded-full">
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -108,6 +187,16 @@ const Navbar = () => {
             Home
           </Link>
           <Link
+            to="/find-donor"
+            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+              location.pathname === "/find-donor"
+                ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                : "hover:bg-muted"
+            }`}
+          >
+            Find Donors
+          </Link>
+          <Link
             to="/about"
             className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
               location.pathname === "/about"
@@ -128,13 +217,60 @@ const Navbar = () => {
             Contact
           </Link>
 
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <Button asChild variant="outline" className="w-full justify-center">
-              <Link to="/login">Login</Link>
-            </Button>
-            <Button asChild className="w-full justify-center bg-blood-500 hover:bg-blood-600">
-              <Link to="/register">Register</Link>
-            </Button>
+          {user && (
+            <>
+              <div className="w-full h-px bg-muted my-2"></div>
+              <Link
+                to="/dashboard"
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                  location.pathname === "/dashboard"
+                    ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                    : "hover:bg-muted"
+                }`}
+              >
+                Dashboard
+              </Link>
+              {user.role === "admin" && (
+                <Link
+                  to="/admin"
+                  className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                    location.pathname === "/admin"
+                      ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                      : "hover:bg-muted"
+                  }`}
+                >
+                  Admin Panel
+                </Link>
+              )}
+              <Link
+                to="/settings"
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                  location.pathname === "/settings"
+                    ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                    : "hover:bg-muted"
+                }`}
+              >
+                Settings
+              </Link>
+            </>
+          )}
+
+          <div className="mt-4 grid grid-cols-1 gap-2">
+            {user ? (
+              <Button onClick={handleLogout} variant="outline" className="w-full justify-center text-destructive">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button asChild variant="outline" className="w-full justify-center">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button asChild className="w-full justify-center bg-blood-500 hover:bg-blood-600">
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
       </div>

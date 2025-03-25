@@ -1,6 +1,6 @@
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("dashboard");
 
   useEffect(() => {
     if (!user) {
@@ -60,26 +61,66 @@ const Dashboard = () => {
                 
                 <div className="p-4">
                   <nav className="space-y-1">
-                    <a href="#" className="flex items-center gap-3 px-3 py-2 bg-blood-50 text-blood-500 rounded-lg">
+                    <Link 
+                      to="/dashboard" 
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        activeSection === "dashboard" 
+                          ? "bg-blood-50 text-blood-500" 
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                      onClick={() => setActiveSection("dashboard")}
+                    >
                       <Heart className="w-5 h-5" />
                       <span className="font-medium">Dashboard</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2 text-foreground hover:bg-muted rounded-lg transition-colors">
+                    </Link>
+                    <Link 
+                      to="/donations" 
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        activeSection === "donations" 
+                          ? "bg-blood-50 text-blood-500" 
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                      onClick={() => setActiveSection("donations")}
+                    >
                       <Calendar className="w-5 h-5" />
                       <span className="font-medium">Donations</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2 text-foreground hover:bg-muted rounded-lg transition-colors">
+                    </Link>
+                    <Link 
+                      to="/requests" 
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        activeSection === "requests" 
+                          ? "bg-blood-50 text-blood-500" 
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                      onClick={() => setActiveSection("requests")}
+                    >
                       <Bell className="w-5 h-5" />
                       <span className="font-medium">Requests</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2 text-foreground hover:bg-muted rounded-lg transition-colors">
+                    </Link>
+                    <Link 
+                      to="/find-donor" 
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        activeSection === "locations" 
+                          ? "bg-blood-50 text-blood-500" 
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                      onClick={() => setActiveSection("locations")}
+                    >
                       <MapPin className="w-5 h-5" />
-                      <span className="font-medium">Locations</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2 text-foreground hover:bg-muted rounded-lg transition-colors">
+                      <span className="font-medium">Find Donors</span>
+                    </Link>
+                    <Link 
+                      to="/settings" 
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        activeSection === "settings" 
+                          ? "bg-blood-50 text-blood-500" 
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                      onClick={() => setActiveSection("settings")}
+                    >
                       <Settings className="w-5 h-5" />
                       <span className="font-medium">Settings</span>
-                    </a>
+                    </Link>
                   </nav>
                   
                   <div className="pt-4 mt-4 border-t border-border/50">
@@ -221,8 +262,10 @@ const Dashboard = () => {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline" className="w-full">
-                      View All {user.role === "donor" ? "Recipients" : "Donors"}
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/find-donor">
+                        View All {user.role === "donor" ? "Recipients" : "Donors"}
+                      </Link>
                     </Button>
                   </CardFooter>
                 </Card>
