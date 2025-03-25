@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, UserCircle, LogOut, Bell, Settings } from "lucide-react";
+import { Menu, X, UserCircle, LogOut, Bell, Settings, Droplet, Users, Home, FileSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -72,14 +72,6 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/find-donor"
-            className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
-              location.pathname === "/find-donor" ? "text-blood-500" : "text-foreground"
-            }`}
-          >
-            Find Donors
-          </Link>
-          <Link
             to="/about"
             className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
               location.pathname === "/about" ? "text-blood-500" : "text-foreground"
@@ -95,6 +87,16 @@ const Navbar = () => {
           >
             Contact
           </Link>
+          {user && (
+            <Link
+              to="/find-donor"
+              className={`text-base font-medium transition-all duration-200 hover:text-blood-500 ${
+                location.pathname === "/find-donor" ? "text-blood-500" : "text-foreground"
+              }`}
+            >
+              Find Donors
+            </Link>
+          )}
 
           <div className="ml-4 space-x-2">
             {user ? (
@@ -128,9 +130,15 @@ const Navbar = () => {
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem asChild>
-                      <Link to="/notifications" className="cursor-pointer w-full">
-                        <Bell className="mr-2 h-4 w-4" />
-                        <span>Notifications</span>
+                      <Link to="/donors" className="cursor-pointer w-full">
+                        <Droplet className="mr-2 h-4 w-4" />
+                        <span>Donations</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/recipients" className="cursor-pointer w-full">
+                        <Users className="mr-2 h-4 w-4" />
+                        <span>Requests</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -177,82 +185,112 @@ const Navbar = () => {
         } shadow-lg`}
       >
         <nav className="flex flex-col gap-4">
-          {/* Always show these navigation items regardless of user login status */}
+          {/* Always show these navigation links for all users */}
           <Link
             to="/"
-            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
               location.pathname === "/"
                 ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                 : "hover:bg-muted"
             }`}
           >
-            Home
-          </Link>
-          <Link
-            to="/find-donor"
-            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
-              location.pathname === "/find-donor"
-                ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
-                : "hover:bg-muted"
-            }`}
-          >
-            Find Donors
+            <Home className="w-5 h-5" />
+            <span>Home</span>
           </Link>
           <Link
             to="/about"
-            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
               location.pathname === "/about"
                 ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                 : "hover:bg-muted"
             }`}
           >
-            About
+            <FileSearch className="w-5 h-5" />
+            <span>About</span>
           </Link>
           <Link
             to="/contact"
-            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+            className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
               location.pathname === "/contact"
                 ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                 : "hover:bg-muted"
             }`}
           >
-            Contact
+            <Bell className="w-5 h-5" />
+            <span>Contact</span>
           </Link>
 
+          {/* Show these links only for logged in users */}
           {user && (
             <>
               <div className="w-full h-px bg-muted my-2"></div>
               <Link
                 to="/dashboard"
-                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
                   location.pathname === "/dashboard"
                     ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                     : "hover:bg-muted"
                 }`}
               >
-                Dashboard
+                <UserCircle className="w-5 h-5" />
+                <span>Dashboard</span>
+              </Link>
+              <Link
+                to="/donors"
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
+                  location.pathname === "/donors"
+                    ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                    : "hover:bg-muted"
+                }`}
+              >
+                <Droplet className="w-5 h-5" />
+                <span>Donations</span>
+              </Link>
+              <Link
+                to="/recipients"
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
+                  location.pathname === "/recipients"
+                    ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                    : "hover:bg-muted"
+                }`}
+              >
+                <Users className="w-5 h-5" />
+                <span>Requests</span>
+              </Link>
+              <Link
+                to="/find-donor"
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
+                  location.pathname === "/find-donor"
+                    ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
+                    : "hover:bg-muted"
+                }`}
+              >
+                <Users className="w-5 h-5" />
+                <span>Find Donors</span>
               </Link>
               {user.role === "admin" && (
                 <Link
                   to="/admin"
-                  className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                  className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
                     location.pathname === "/admin"
                       ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                       : "hover:bg-muted"
                   }`}
                 >
-                  Admin Panel
+                  <Settings className="w-5 h-5" />
+                  <span>Admin Panel</span>
                 </Link>
               )}
               <Link
                 to="/settings"
-                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 ${
+                className={`text-lg font-medium px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 ${
                   location.pathname === "/settings"
                     ? "bg-blood-50 text-blood-500 dark:bg-blood-950 dark:text-blood-400"
                     : "hover:bg-muted"
                 }`}
               >
-                Settings
+                <Settings className="w-5 h-5" />
+                <span>Settings</span>
               </Link>
             </>
           )}
