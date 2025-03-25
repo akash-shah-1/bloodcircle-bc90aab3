@@ -209,7 +209,9 @@ const Dashboard = () => {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline" className="w-full">View All Activity</Button>
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/activity">View All Activity</Link>
+                    </Button>
                   </CardFooter>
                 </Card>
                 

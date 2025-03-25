@@ -16,6 +16,10 @@ import RecipientsList from "./pages/RecipientsList";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Donations from "./pages/Donations";
+import Requests from "./pages/Requests";
+import Settings from "./pages/Settings";
+import Activity from "./pages/Activity";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +41,10 @@ const App = () => (
             <Route path="/recipients" element={<RecipientsList />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/donations" element={<Donations />} />
+            <Route path="/requests" element={<Requests />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/activity" element={<Activity />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
